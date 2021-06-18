@@ -1,0 +1,30 @@
+
+
+.mSCell{
+    width:30px;
+    height:30px;
+    border: solid 1px black;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    background-color: white;
+    line-height: 30px;
+}
+
+.flag
+{
+    background-image: url('../img/flag.jpg');
+    background-size: 30px 30px;
+}
+
+.mine
+{
+    background-image: url('../img/mine.jpg');
+    background-size: 30px 30px;
+}
+
+.question
+{
+    background-image: url('../img/question.png');
+    background-size: 30px 30px;
+}

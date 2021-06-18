@@ -13,7 +13,8 @@ class MineSweeperControls{
         this._view.setContainerHTMLElements(rows,cols,mineCount,newGameButton)
         this._view.newGameButton.addEventListener("click", ()=>
         {
-            new MineSweeperService(mineField, this._view.rows.value, this._view.cols.value, this._view.mineCount.value)
+            let msc = new MineSweeperService()
+            msc.newGame(mineField, this._view.rows.value, this._view.cols.value, this._view.mineCount.value)
         })
     }
 
