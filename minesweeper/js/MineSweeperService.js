@@ -170,7 +170,7 @@ class MineSweeperService {
 
         if (this._correctClickCount === (this._colCount*this._rowCount-this._mineCount))
         {
-            this._isGameEnded=true;                                      //akkor van vége a jázéknak, ha a kattintott mezők száma egyenlő a NEM aknás mezők számával
+            this._isGameEnded   =true;                                      //akkor van vége a jázéknak, ha a kattintott mezők száma egyenlő a NEM aknás mezők számával
             alert("you win")
             return true
         }
