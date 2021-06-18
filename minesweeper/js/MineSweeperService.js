@@ -13,7 +13,7 @@ class MineSweeperService {
     _mineCount;
     _mouseDownIndex;
     _mouseUpIndex;
-
+    _correctClickCount;
     // clickResult;
 
     constructor() {
@@ -30,7 +30,7 @@ class MineSweeperService {
         this._rowCount = rowCount;
         this._colCount = colCount
         this.createCells(mineField)
-
+        this._correctClickCount = 0;
         this._mouseDownIndex = null;
         this._mouseUpTime = null;
         this._isFirstClick = true;
@@ -135,32 +135,52 @@ class MineSweeperService {
 
     clickOnFieldPoint([coord1, coord2])                       ///mezőre kattintás eseménye
     {
-        if (this._cells[coord1][coord2].clickedOn())
+        let [clickedOn, surroundingMines] = this._cells[coord1][coord2].clickedOn()
+        if (clickedOn)
         {
             return;
         }
-        console.log('click')
-        this.this._cells[coord1][coord2].clickHappened();
-
-        if (ind === -1)                                    //ha nem...
+        let survived = this._cells[coord1][coord2].clickHappened();
+        if (survived)
         {
-            let ind3 = this.mineCoord.findIndex((coord) =>                     //kattintott mező akna?
+            this._correctClickCount++;
+            let win = this.checkWin()
+            if (!win && surroundingMines === null)
             {
-                return (coord[0] === fp[0]) && (coord[1] === fp[1]);
-            });
-            if (ind3 === -1)                                                       //ha nem, kiirja hány akna van körülötte
-            {
-                this.clickedFieldPoint.push(fp);
-                this.clickResult.push([fp, this.mineAround[fp[0]][fp[1]]]);
-                if (this.mineAround[fp[0]][fp[1]] == null)                                        //ha egy akna sincs körülötte elszürkíti, és a környező mezőket is metgvizsgálja (mint,ha rákattintanánk)
-                {
-                    this.showMineAround(fp)
-                }
-            } else {
-                this.isGameEnded = true;
-                this.clickResult = "lost";
+                this.checkSurroundingCells([coord1, coord2])
             }
         }
+        else this.gameEnd()
+
+    }
+
+    checkSurroundingCells(coords)                                 //kattintorr mező körüli mezőket vizsgálja meg (mintha azokra is rákattintanánk)
+    {
+        for (let k=coords[0]-1;k<coords[0]+2;k++)
+        {
+            for (let l=coords[1]-1;l<coords[1]+2;l++)
+            {
+                if ((k>=0)&&(k<this._colCount)&&(l>=0)&&(l<this._rowCount))
+                    this.clickOnFieldPoint([k,l]);
+            }
+        }
+    }
+
+    checkWin() {
+
+        if (this._correctClickCount === (this._colCount*this._rowCount-this._mineCount))
+        {
+            this._isGameEnded=true;                                      //akkor van vége a jázéknak, ha a kattintott mezők száma egyenlő a NEM aknás mezők számával
+            alert("you win")
+            return true
+        }
+        return false
+    }
+
+    gameEnd()
+    {
+        this._isGameEnded = true;
+        alert("you lost")
     }
 
 }

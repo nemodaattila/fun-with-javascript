@@ -29,4 +29,13 @@ class MineSweeperControlsView {
         this._newGameButton = document.getElementById(newGameButton);
     }
 
+    emptyFieldContainer(mineField)
+    {
+        mineField = document.getElementById(mineField)
+        while (mineField.firstChild) {
+            console.log(mineField.firstChild)
+            mineField.removeChild(mineField.lastChild);
+        }
+    }
+
 }

@@ -38,6 +38,7 @@ class MineSweeperCellView {
 
     displayClickResult(count)
     {
+        this._cell.className="mSCell";
         if (count === null ) {
             this._cell.style.backgroundColor = "grey";
         }

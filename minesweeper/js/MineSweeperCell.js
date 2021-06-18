@@ -37,17 +37,19 @@ class MineSweeperCell {
 
     clickedOn()
     {
-        return this._model.clickedOn
+        this._view.displayClickResult(this._model.mineCountAround);
+        return [this._model.clickedOn, this._model._mineCountAround];
     }
 
     clickHappened()
     {
-        this._model.clickedOn()
+        this._model.clickedOn=true
         if (this._model.isMine)
         {
             this._view.displayMine()
             return false;
         }
         this._view.displayClickResult(this._model.mineCountAround);
+        return true
     }
 }
