@@ -64,51 +64,24 @@ class MineSweeperService {
                 let mineCoords = this.randomiseMines()
                 this.calculateSurroundingMineCount(mineCoords)
             }
-            this.clickedOnField(index, this._mouseUpTime-this._mouseDownTime>200)
+            this.clickedOnField(index, this._mouseUpTime - this._mouseDownTime > 200)
         }
     }
 
-    clickedOnField(coord, isDouble)
-    {
-        console.log([coord,isDouble])
-        this.clickResult=[];
-        if (!this.isGameEnded) {
-            this.clickedCell = coord.split("-");
-            this.clickedCell[0] = parseInt(this.clickedCell[0]);
-            this.clickedCell[1] = parseInt(this.clickedCell[1]);
-            console.log(this.isFirstClick)
-            let isdouble = false
-
-            if (this.isFirstClick)
-            {
-                this.setGameData()
-            }
-            else {
-
-                this.actTime=new Date().valueOf();;
-                if(this.actTime-this.lastTime>200) isdouble=true;
-
-                if (isdouble)
-                {
-                    let ind=this.clickedFieldPoint.findIndex((coord)=>
-                    {
-                        return (coord[0] === this.clickedCell[0])&&(coord[1] === this.clickedCell[1]);
-                    });
-
-                    if(ind === -1)
-                    {
-                        this.clickResult.push([this.clickedCell,"d"]);
-                    }//duplakattintás , ha az egérgomb lenyomása és felengedése között tömmb mint 200 ms telik el
-                }
+    clickedOnField(coord, isDouble) {
+        console.log([coord, isDouble])
+        this.clickResult = [];
+        if (!this._isGameEnded) {
+            if (isDouble) {
+                this._cells[coord[0]][coord[1]].doubleClick();
             }
 
-            if (!isdouble) this.clickOnFieldPoint(this.clickedCell)
+            if (!isDouble) this.clickOnFieldPoint(coord)
             console.log(this.clickResult)
 
         }
         return this.clickResult;
     }
-
 
     randomiseMines() {
         let tempCoord;
@@ -132,7 +105,7 @@ class MineSweeperService {
     }
 
     calculateSurroundingMineCount(mineCoords) {
-           console.log(mineCoords)
+        console.log(mineCoords)
 
         for (let i = 0; i < this._colCount; i++) {
             for (let j = 0; j < this._rowCount; j++) {
@@ -156,6 +129,36 @@ class MineSweeperService {
                 }
                 if (c === 0) c = null;
                 this._cells[i][j].setSurroundMineCount(c);
+            }
+        }
+    }
+
+    clickOnFieldPoint([coord1, coord2])                       ///mezőre kattintás eseménye
+    {
+        if (this._cells[coord1][coord2].clickedOn())
+        {
+            return;
+        }
+        console.log('click')
+        this.this._cells[coord1][coord2].clickHappened();
+
+        if (ind === -1)                                    //ha nem...
+        {
+            let ind3 = this.mineCoord.findIndex((coord) =>                     //kattintott mező akna?
+            {
+                return (coord[0] === fp[0]) && (coord[1] === fp[1]);
+            });
+            if (ind3 === -1)                                                       //ha nem, kiirja hány akna van körülötte
+            {
+                this.clickedFieldPoint.push(fp);
+                this.clickResult.push([fp, this.mineAround[fp[0]][fp[1]]]);
+                if (this.mineAround[fp[0]][fp[1]] == null)                                        //ha egy akna sincs körülötte elszürkíti, és a környező mezőket is metgvizsgálja (mint,ha rákattintanánk)
+                {
+                    this.showMineAround(fp)
+                }
+            } else {
+                this.isGameEnded = true;
+                this.clickResult = "lost";
             }
         }
     }
