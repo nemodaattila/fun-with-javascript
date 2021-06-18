@@ -11,8 +11,7 @@ class MineSweeperService {
     _rowCount;
     _colCount;
     _mineCount;
-    _mouseDownIndex;
-    _mouseUpIndex;
+
     _correctClickCount;
     // clickResult;
 
@@ -50,53 +49,33 @@ class MineSweeperService {
         console.log(document.getElementById(mineField))
     }
 
-    mouseDownOnCell(index) {
-        this._mouseDownTime = new Date().valueOf();
-        this._mouseDownIndex = index
-    }
 
-    mouseUpOnCell(index) {
-        this._mouseUpTime = new Date().valueOf();
-        this._mouseUpIndex = index
-        if (this._mouseDownIndex === this._mouseUpIndex) {
-            if (this._isFirstClick === true) {
-                this._isFirstClick = false;
-                let mineCoords = this.randomiseMines()
-                this.calculateSurroundingMineCount(mineCoords)
-            }
-            this.clickedOnField(index, this._mouseUpTime - this._mouseDownTime > 200)
+
+    mouseLeftClicked(index) {
+        if (this._isFirstClick === true) {
+            this._isFirstClick = false;
+            let mineCoords = this.randomiseMines(index)
+            this.calculateSurroundingMineCount(mineCoords)
+            this.f
         }
+        if (!this._isGameEnded)
+        this.clickOnFieldPoint(index)
     }
 
-    clickedOnField(coord, isDouble) {
-        console.log([coord, isDouble])
-        this.clickResult = [];
-        if (!this._isGameEnded) {
-            if (isDouble) {
-                this._cells[coord[0]][coord[1]].doubleClick();
-            }
 
-            if (!isDouble) this.clickOnFieldPoint(coord)
-            console.log(this.clickResult)
 
-        }
-        return this.clickResult;
-    }
-
-    randomiseMines() {
+    randomiseMines(firstClickedCell) {
         let tempCoord;
         let mineCoords = [];
-        let first = this._mouseDownIndex;
         for (let i = 0; i < this._mineCount; i++)              //alna koordináták kisorsolása
         {
             tempCoord = [Math.floor((Math.random() * this._colCount)), Math.floor((Math.random() * this._rowCount))];
             let ind = mineCoords.findIndex((coord) => {
                 return (coord[0] === tempCoord[0]) && (coord[1] === tempCoord[1]);
             });
-            if ((ind === -1) && (!((tempCoord[0] === first[0]) && (tempCoord[1] === first[1])))) {
+            if ((ind === -1) && (!((tempCoord[0] === firstClickedCell[0]) && (tempCoord[1] === firstClickedCell[1])))) {
                 mineCoords.push(tempCoord);
                 this._cells[tempCoord[0]][tempCoord[1]].setMineTrue();
-                console.log(this._cells[tempCoord[0]][tempCoord[1]])
             } else {
                 i--;
             }
@@ -135,7 +114,7 @@ class MineSweeperService {
 
     clickOnFieldPoint([coord1, coord2])                       ///mezőre kattintás eseménye
     {
-        let [clickedOn, surroundingMines] = this._cells[coord1][coord2].clickedOn()
+        let [clickedOn, surroundingMines] = this._cells[coord1][coord2].checkClickedOn()
         if (clickedOn)
         {
             return;
@@ -170,7 +149,7 @@ class MineSweeperService {
 
         if (this._correctClickCount === (this._colCount*this._rowCount-this._mineCount))
         {
-            this._isGameEnded   =true;                                      //akkor van vége a jázéknak, ha a kattintott mezők száma egyenlő a NEM aknás mezők számával
+            this._isGameEnded=true;                                      //akkor van vége a jázéknak, ha a kattintott mezők száma egyenlő a NEM aknás mezők számával
             alert("you win")
             return true
         }

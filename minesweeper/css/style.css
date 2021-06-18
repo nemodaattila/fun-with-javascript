@@ -1,8 +1,7 @@
 
-
-.mSCell{
-    width:30px;
-    height:30px;
+.mSCell {
+    width: 30px;
+    height: 30px;
     border: solid 1px black;
     display: inline-block;
     text-align: center;
@@ -11,20 +10,17 @@
     line-height: 30px;
 }
 
-.flag
-{
+.flag {
     background-image: url('../img/flag.jpg');
     background-size: 30px 30px;
 }
 
-.mine
-{
+.mine {
     background-image: url('../img/mine.jpg');
     background-size: 30px 30px;
 }
 
-.question
-{
+.question {
     background-image: url('../img/question.png');
     background-size: 30px 30px;
 }

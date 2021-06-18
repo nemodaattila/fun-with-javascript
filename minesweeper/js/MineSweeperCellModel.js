@@ -3,14 +3,14 @@ class MineSweeperCellModel {
     _index
     _isMine = false;
     _clickedOn = false;
-    _mineCountAround = 0;
+    _surroundingMineCount = 0;
 
-    get mineCountAround() {
-        return this._mineCountAround;
+    get surroundingMineCount() {
+        return this._surroundingMineCount;
     }
 
-    set mineCountAround(value) {
-        this._mineCountAround = value;
+    set surroundingMineCount(value) {
+        this._surroundingMineCount = value;
     }
 
     get clickedOn() {
