@@ -1,8 +1,33 @@
+/**
+ * model for MineSweeperCell
+ */
 class MineSweeperCellModel {
 
-    _index
+    /**
+     * coordinates of the cell in the game field (row, columns), both from 0
+     * @private [int, int]
+     */
+    _coordinates
+
+    /**
+     * shows that the cell contains a mine or now
+     * @type {boolean}
+     * @private
+     */
     _isMine = false;
+
+    /**
+     * shows that the cell has been clicked or not
+     * @type {boolean}
+     * @private
+     */
     _clickedOn = false;
+
+    /**
+     * shows the count of surrounding mines
+     * @type {number}
+     * @private
+     */
     _surroundingMineCount = 0;
 
     get surroundingMineCount() {
@@ -29,12 +54,12 @@ class MineSweeperCellModel {
         this._isMine = value;
     }
 
-    constructor(index) {
-        this._index = index
+    get coordinates() {
+        return this._coordinates;
     }
 
-    get index() {
-        return this._index;
+    constructor(index) {
+        this._coordinates = index
     }
 }
 

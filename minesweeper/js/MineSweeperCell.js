@@ -9,14 +9,14 @@ class MineSweeperCell {
     _model
 
     /**
-     * view MineSweeperView
+     * view - MineSweeperView
      * @private
      */
     _view
 
-    constructor(index, parent, addbr) {
+    constructor(index, parent, addBr) {
         this._model = new MineSweeperCellModel(index)
-        this._view = new MineSweeperCellView(document.getElementById(parent), addbr)
+        this._view = new MineSweeperCellView(document.getElementById(parent), addBr)
         this.addEventListenerToCell();
     }
 
@@ -39,27 +39,26 @@ class MineSweeperCell {
 
     /**
      * adds events listeners to the cell
-     * triggers and event when the left or the middle button of the mouse is clicked or released
+     * triggers and event when the left or the middle button of the mouse is clicked
      * event button - 0 or 1 respectively
      */
     addEventListenerToCell() {
-        this._view.cell.addEventListener("mousedown", (event) => {
-            console.dir(event.button)
+        this._view.cellElement.addEventListener("mousedown", (event) => {
             if (event.button === 1) {
-                this.middleButtonclicked()
+                this.middleButtonClicked()
             }
             if (event.button === 0) {
-                new MineSweeperService().mouseLeftClicked(this._model.index)
+                console.log(this._model.coordinates)
+                new MineSweeperService().mouseLeftClicked(this._model.coordinates)
             }
-
         })
     }
 
     /**
-     * in case of long pressed click (simulated right click)
-     * if (not already clicked, changes the view of the cell to an icon (qustionmark, flag)
+     * in case of middle mouse button click
+     * if (not already clicked, changes the view of the cell to an icon (question mark, flag)
      */
-    middleButtonclicked() {
+    middleButtonClicked() {
         if (!this._model._clickedOn) {
             this._view.changeIcon();
         }
@@ -74,7 +73,7 @@ class MineSweeperCell {
     }
 
     /**
-     * in case of simple click
+     * in case of left mouse button click
      * if the cell is a mine displays it, else it displays the num og surrounding cells
      * @returns {boolean} false if the cells is a mine, true if not
      */
