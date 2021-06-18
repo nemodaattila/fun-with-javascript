@@ -3,9 +3,9 @@ class MineSweeperCellView {
     _cell
 
     constructor(parent,addbr) {
-        let _cell=document.createElement("span");
-        _cell.className="mSCell";
-        parent.appendChild(_cell)
+        this._cell=document.createElement("span");
+        this._cell.className="mSCell";
+        parent.appendChild(this._cell)
         if (addbr) parent.appendChild(document.createElement("br"));
     }
 

@@ -8,13 +8,22 @@ class MineSweeperCell {
         this.addEventListenerToCell();
     }
 
+    setMineTrue()
+    {
+        this._model.isMine=true
+    }
+
+    setSurroundMineCount(count)
+    {
+        this._model.mineCountAround=count;
+    }
+
     addEventListenerToCell() {
         this._view.cell.addEventListener("mousedown",() => {
-
-            this.mouseDownOnField()
+            new MineSweeperService().mouseDownOnCell(this._model.index)
         })
         this._view.cell.addEventListener("mouseup",() => {
-            this.mouseUpOnField()
+            new MineSweeperService().mouseUpOnCell(this._model.index, this._model.isMine)
         })
     }
 }
