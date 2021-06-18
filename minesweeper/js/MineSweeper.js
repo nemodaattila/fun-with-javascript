@@ -1,12 +1,21 @@
-class MineSweeper extends StaticControllerParent
+class MineSweeper
 {
 
-    static setContainerHTMLElements(row, col, mcount, ngbtn, field)
+    _model;
+    _view;
+
+    constructor() {
+        if (!MineSweeper._instance) {
+            MineSweeper._instance = this;
+            this._model= new MineSweeperModel();
+            this._view = new MineSweeperView();
+        }
+        return MineSweeper._instance;
+    }
+
+    setContainerHTMLElements(row, col, mcount, ngbtn, field)
     {
         this.addEvents(this.view.setContainerHTMLElements(row,col,mcount,ngbtn,field))
-
-
-
     }
 
     static addEvents(elements)
