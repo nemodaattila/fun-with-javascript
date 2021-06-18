@@ -1,27 +1,25 @@
 class MineSweeperControlsView {
 
-
+    _rows;
+    _cols;
+    _mineCount;
+    _newGameButton;
 
     get rows() {
-        return this._rows.value;
+        return this._rows;
     }
 
     get cols() {
-        return this._cols.value;
+        return this._cols;
     }
 
     get mineCount() {
-        return this._mineCount.value;
+        return this._mineCount;
     }
 
     get newGameButton() {
         return this._newGameButton;
     }
-    _rows;
-    _cols;
-    _mineCount;
-    _newGameButton;
-    // _parent;
 
     setContainerHTMLElements(rows,cols,mineCount,newGameButton,mineField)
     {
@@ -29,9 +27,6 @@ class MineSweeperControlsView {
         this._cols = document.getElementById(cols);
         this._mineCount = document.getElementById(mineCount);
         this._newGameButton = document.getElementById(newGameButton);
-
-        // this._parent = this._rows.parentNode.parentNode;
-        console.dir(this)
     }
 
 }
