@@ -6,18 +6,27 @@ class WebCameraHandlerView {
     _video;
     _canvas;
     _context;
-    _filterHtmlElem
+    _filterHtmlElement
+
+    get filterHtmlElement() {
+        return this._filterHtmlElement;
+    }
+
+    get videoStartStopButton() {
+        return this._videoStartStopButton;
+    }
 
     setCtrlButtons(video,canvas,filterElem, vidStart,filterbutton, snapshotbutton, saveimgbutton)
     {
         this._video = document.getElementById(video);
         this._canvas = document.getElementById(canvas);
         this._context=this._canvas.getContext("2d");
-        this._filterHtmlElem =  document.getElementById(filterElem)
+        this._filterHtmlElement =  document.getElementById(filterElem)
         this._videoStartStopButton = document.getElementById(vidStart);
         this._filterOnOffButton = document.getElementById(filterbutton);
         this._snapShotButton = document.getElementById(snapshotbutton);
         this._imgSaveButton= document.getElementById(saveimgbutton);
+        console.log(this)
     }
 
     createFilterRanges(filters)
@@ -62,23 +71,22 @@ class WebCameraHandlerView {
     startVideo(stream)
     {
         this.videoStartStopButton.value="start";
-        this.videoStartStopButton.innerText="Videó megállít";
-        this.video.srcObject=stream;
-
-        this.filterOnOffButton.disabled=false;
-        this.snapShotButton.disabled=false;
+        this.videoStartStopButton.innerText="Stop video";
+        this._video.srcObject=stream;
+        this._filterOnOffButton.disabled=false;
+        this._snapShotButton.disabled=false;
     }
 
     stopVideo()
     {
-        this.snapShotButton.disabled=true;
-        this.filterHtmlElem.hidden=true;
-        this.filterHtmlElem.innerHTML="";
-        this.filterOnOffButton.disabled=true;
-        this.filterOnOffButton.value="off";
-        this.filterOnOffButton.innerText="Szúrő bekapcsol";
-        this.videoStartStopButton.value="stop";
-        this.videoStartStopButton.innerText="Videó indít";
+        this._snapShotButton.disabled=true;
+        this._filterHtmlElement.hidden=true;
+        this._filterHtmlElement.innerHTML="";
+        this._filterOnOffButton.disabled=true;
+        this._filterOnOffButton.value="off";
+        this._filterOnOffButton.innerText="Enable filter";
+        this._videoStartStopButton.value="stop";
+        this._videoStartStopButton.innerText="Start video";
     }
 
     startFilter(filters)

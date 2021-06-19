@@ -32,23 +32,23 @@ class WebCameraHandler{
     createFilterRanges() {
         for (let key in this._model.filters)
         {
-            this._filters.push(new VideoFilter());
+            this._filters.push(new VideoFilter(key, this._model._filters[key], this._view.filterHtmlElement));
         }
     }
 
-    static setCtrlActions()
+    setCtrlActions()
     {
         this.addVideoHandling();
-        this.addFilterHandling();
-        this.addSnapShotHandling();
+        // this.addFilterHandling();
+        // this.addSnapShotHandling();
     }
 
-    static addVideoHandling()
+    addVideoHandling()
     {
 
-        this.controllerElements['buttons'][0].addEventListener("click",()=>                //stream elinditása
+        this._view.videoStartStopButton.addEventListener("click",()=>                //stream elinditása
         {
-            let state = this.view.getVideoState()
+            let state = this._view.videoStartStopButton.value;
             console.log(state)
             if (state==="stop")
             {
@@ -60,7 +60,7 @@ class WebCameraHandler{
                         },
                         stream=>
                         {
-                            this.view.startVideo(stream)
+                            this._view.startVideo(stream)
                             this.webCamStream=stream.getTracks()[0];
                         },
                         error=>
@@ -70,9 +70,9 @@ class WebCameraHandler{
                     )
                 }
             }
-            else if (state=="start")             //stream leállítása
+            else if (state==="start")             //stream leállítása
             {
-                this.view.stopVideo()
+                this._view.stopVideo()
                 this.webCamStream.stop();
             }
         });
