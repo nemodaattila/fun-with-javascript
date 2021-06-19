@@ -1,7 +1,7 @@
 class WebCameraHandler{
     _view
     _model
-    _filters
+    _filters =[]
 
     constructor() {
         if (!WebCameraHandler._instance) {
@@ -32,7 +32,7 @@ class WebCameraHandler{
     createFilterRanges() {
         for (let key in this._model.filters)
         {
-
+            this._filters.push(new VideoFilter());
         }
     }
 
