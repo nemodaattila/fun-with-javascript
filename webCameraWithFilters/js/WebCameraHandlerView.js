@@ -16,6 +16,10 @@ class WebCameraHandlerView {
         return this._videoStartStopButton;
     }
 
+    get filterOnOffButton() {
+        return this._filterOnOffButton;
+    }
+
     setCtrlButtons(video,canvas,filterElem, vidStart,filterbutton, snapshotbutton, saveimgbutton)
     {
         this._video = document.getElementById(video);
@@ -26,41 +30,6 @@ class WebCameraHandlerView {
         this._filterOnOffButton = document.getElementById(filterbutton);
         this._snapShotButton = document.getElementById(snapshotbutton);
         this._imgSaveButton= document.getElementById(saveimgbutton);
-        console.log(this)
-    }
-
-    createFilterRanges(filters)
-    {
-        console.log(filters)
-        console.dir(this.filterOnOffButton)
-        let elem;
-        let fdiv;
-        for (let key in filters[0])         //filterek megjelenítése
-        {
-            fdiv=document.createElement("div");
-            this.filterHtmlElem.appendChild(fdiv);
-            let text=document.createTextNode(filters[0][key]+": " + filters[1][key][0]+filters[1][key][3]);
-            fdiv.appendChild(text);
-            elem=document.createElement("input");
-            elem.type="range";
-            elem.className="filterrange";
-            elem.min=filters[1][key][0];
-            elem.max=filters[1][key][1];
-            elem.defaultValue=filters[1][key][2];
-            fdiv.appendChild(elem);
-            this.filterRanges.push(elem)
-            // elem.addEventListener("input",setFilter);
-            text=document.createTextNode(" " + filters[1][key][1]+filters[1][key][3]);
-            fdiv.appendChild(text);
-        }
-        return this.filterRanges;
-    }
-
-
-
-    getVideoState()
-    {
-        return this.videoStartStopButton.value;
     }
 
     getFilterState()
@@ -89,27 +58,27 @@ class WebCameraHandlerView {
         this._videoStartStopButton.innerText="Start video";
     }
 
-    startFilter(filters)
+    displayFilter()
     {
-        this.filterHtmlElem.hidden=false;
+        this.filterHtmlElement.hidden=false;
         this.filterOnOffButton.value="on";
-        this.filterOnOffButton.innerText="Szúrő kikapcsol";
+        this.filterOnOffButton.innerText="Disable Filter";
 
     }
 
-    stopFilter(filterData)
+    hideFilter()
     {
 
-        for (let i=0;i< this.filterRanges.length;i++)
-        {
-            this.filterRanges[i].value=filterData[1][i][2]
-        }
-        this.setFilterOnVideo(filterData)
+        // for (let i=0;i< this.filterRanges.length;i++)
+        // {
+        //     this.filterRanges[i].value=filterData[1][i][2]
+        // }
+        // this.setFilterOnVideo(filterData)
 
-        this.canvas.style = "";
-        this.filterHtmlElem.hidden=true;
-        this.filterOnOffButton.value="off";
-        this.filterOnOffButton.innerText="Szúrő bekapcsol";
+        this._canvas.style = "";
+        this._filterHtmlElement.hidden=true;
+        this._filterOnOffButton.value="off";
+        this._filterOnOffButton.innerText="Szúrő bekapcsol";
     }
 
     setFilterOnVideo(filterData)
