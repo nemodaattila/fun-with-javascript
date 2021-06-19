@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Camera</title>
+</head>
+<body>
+
+<h1>Web Camera stream with filters</h1>
+
+<div>
+    <video id="camVideo" height="300px" width="400px" autoplay="">
+        Your browser doesn't support video tag
+    </video>
+    <canvas id="imageCanvas" height="300px" width="400px">
+        Your browser doesn't support canvas tag
+    </canvas>
+    <br/>
+    <button id="webcamStartStop" value="stop">Start video</button>
+    <button id="webcamFilter" disabled value="off">Enable filters</button>
+    <button id="createSnapshot" disabled>Take snapshot</button>
+    <button id="saveSnapshot" disabled><a id="saveLink" download="snapshot.png">Save Snapshot</a></button>
+    <div id="filterDiv" hidden=""></div>
+</div>
+</body>
+<script src="js/WebCameraHandler.js"></script>
+<script src="js/init.js"></script>
+
+</html>
+
