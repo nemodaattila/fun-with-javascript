@@ -1,9 +1,36 @@
+/**
+ * model class for VideoFilter
+ */
 class VideoFilterModel {
 
+    /**
+     * string | name of the filter type, eg: sepia
+     * @private
+     */
     _name
+
+    /**
+     * int | maximum value of the filter and the html range
+     * @private
+     */
     _maxValue;
+
+    /**
+     * int | default value of the filter and the html range
+     * @private
+     */
     _defaultValue;
+
+    /**
+     * string | unit measure of the filter eg: sepia-> %, blur ->px
+     * @private
+     */
     _unit;
+
+    /**
+     * int | default value of the filter and the html range
+     * @private
+     */
     _actualValue;
 
     get actualValue() {
@@ -35,11 +62,13 @@ class VideoFilterModel {
         this._defaultValue = defaultValue
         this._unit = unit
         this._maxValue = maxValue
-        this._actualValue=this._defaultValue
+        this._actualValue = this._defaultValue
     }
 
-    resetActualValue()
-    {
+    /**
+     * changes the actual value to default value (reset)
+     */
+    resetActualValue() {
         this._actualValue = this._defaultValue
     }
 }

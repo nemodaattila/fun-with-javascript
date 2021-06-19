@@ -1,4 +1,8 @@
-let vch = new WebCameraHandler();
+/**
+ * initiates WebCameraHandler controller, sets parameters
+ * @type {WebCameraHandler}
+ */
 
-vch.setCtrlButtons("camVideo", "imageCanvas", "filterDiv",  "webcamStartStop", "webcamFilter", "createSnapshot", "saveSnapshot");
-vch.init();
+let vch = new WebCameraHandler();
+vch.setCtrlButtons("camVideo", "imageCanvas", "filterDiv", "webcamStartStop", "webcamFilter", "createSnapshot", "saveSnapshot");
+vch.createFilterRanges()

@@ -1,7 +1,25 @@
-class WebCameraHandler{
+/**
+ * controller for managing camera video stream, creating and saving snapshot
+ */
+class WebCameraHandler {
+    /**
+     * WebCameraHandlerView
+     * @private
+     */
     _view
+
+    /**
+     * WebCameraHandlerModel
+     * @private
+     */
     _model
-    _filters =[]
+
+    /**
+     * array of Video filter classes
+     * @type {[]} VideoFilter[]
+     * @private
+     */
+    _filters = []
 
     constructor() {
         if (!WebCameraHandler._instance) {
@@ -13,64 +31,68 @@ class WebCameraHandler{
         return WebCameraHandler._instance;
     }
 
+    /**
+     * resource for streaming the camera recording | navigator.getUserMedia -> stream
+     */
     webCamStream;
 
-    init()
-    {
-        navigator.getUserMedia=(navigator.getUserMedia)||(navigator.webkitGetUserMedia)||(navigator.mozGetUserMedia)||
-            (navigator.msGetUserMedia)||(navigator.oGetUserMedia);
+    /**
+     * send html parameters to view for saving
+     * @param video html ID for video element
+     * @param canvas html ID for canvas element
+     * @param filterElement html ID for container element of filters
+     * @param videoStartButton html ID for video start/stop button
+     * @param filterButton html ID for filter enabling/disabling button
+     * @param snapshotButton html ID for snapshot creator button
+     * @param saveImgButton html ID for snapshot creator button
+     */
+    setCtrlButtons(video, canvas, filterElement, videoStartButton, filterButton, snapshotButton, saveImgButton) {
+        this._view.setCtrlButtons(video, canvas, filterElement, videoStartButton, filterButton, snapshotButton, saveImgButton)
+
     }
 
-
-    setCtrlButtons(video,canvas, filterElement, videoStartButton,filterButton, snapshotButton, saveImgButton)
-    {
-        this._view.setCtrlButtons(video,canvas, filterElement, videoStartButton,filterButton, snapshotButton, saveImgButton)
-        this.createFilterRanges();
+    /**
+     * creates classes for all respective filters (source in model)
+     */
+    createFilterRanges() {
+        for (let key in this._model.filters) {
+            this._filters.push(new VideoFilter(key, this._model._filters[key], this._view.filterHtmlElement));
+        }
         this.setCtrlActions()
     }
 
-    createFilterRanges() {
-        for (let key in this._model.filters)
-        {
-            this._filters.push(new VideoFilter(key, this._model._filters[key], this._view.filterHtmlElement));
-        }
-    }
-
-    setCtrlActions()
-    {
+    /**
+     * function calls for adding eventListener to buttons
+     */
+    setCtrlActions() {
         this.addVideoHandling();
         this.addFilterHandling();
         this.addSnapShotHandling();
     }
 
-    addVideoHandling()
-    {
-
-        this._view.videoStartStopButton.addEventListener("click",()=>                //stream elinditása
+    /**
+     * adds eventListener to video starter/stopper button (onclick)
+     */
+    addVideoHandling() {
+        this._view.videoStartStopButton.addEventListener("click", () =>
         {
             let state = this._view.videoStartStopButton.value;
-            console.log(state)
-            if (state==="stop")
-            {
-                if (navigator.getUserMedia)
-                {
+            if (state === "stop") {
+                if (navigator.getUserMedia) {
                     navigator.getUserMedia(
                         {
-                            video:true,audio:false
+                            video: true, audio: false
                         },
-                        stream=>
-                        {
+                        stream => {
                             this._view.startVideo(stream)
-                            this.webCamStream=stream.getTracks()[0];
+                            this.webCamStream = stream.getTracks()[0];
                         },
-                        error=>
-                        {
-                            alert("Hiba: " + error);
+                        error => {
+                            alert("Error: " + error);
                         }
                     )
                 }
-            }
-            else if (state==="start")             //stream leállítása
+            } else if (state === "start")
             {
                 this._view.stopVideo()
                 this.webCamStream.stop();
@@ -79,50 +101,48 @@ class WebCameraHandler{
         });
     }
 
-    addFilterHandling()
-    {
-        // for (let key of this.controllerElements['filter'])
-        // {
-        //     key.addEventListener("input", () => this.view.setFilterOnVideo(this.model.getFilterData()))
-        // }
-
-        this._view.filterOnOffButton.addEventListener("click",()=> {
+    /**
+     * adds event listener to the filter enabler/disabler button (onclick)
+     */
+    addFilterHandling() {
+        this._view.filterOnOffButton.addEventListener("click", () => {
             let state = this._view.filterOnOffButton.value;
-            console.log(state);
             if (state === 'off') {
-                 this._view.displayFilter();
-
-            }
-            else if (state === 'on')
-            {
+                this._view.displayFilter();
+            } else if (state === 'on') {
                 this.resetFilters()
             }
         })
     }
 
-    resetFilters()
-    {
+    /**
+     * hides filters, resets filters to default, sets the style of the video and the image to none
+     */
+    resetFilters() {
         this._view.hideFilter();
-        for (let filter of this._filters)
-        {
+        for (let filter of this._filters) {
             filter.reset();
         }
-        this.filterChanged()
+        this.changeVideoFilter()
     }
 
-    addSnapShotHandling()
-    {
-        this._view.snapShotButton.addEventListener("click",()=> {
+    /**
+     * add event listener to the snapshot creator button (onclick)
+     */
+    addSnapShotHandling() {
+        this._view.snapShotButton.addEventListener("click", () => {
             this._view.createSnapshot();
         })
     }
 
-    filterChanged() {
-        let filterStyle=[];
-        for (let filter of this._filters)
-        {
+    /**
+     * queries all filter (VideoFilter) for actual values
+     * and set the style of the video to it
+     */
+    changeVideoFilter() {
+        let filterStyle = [];
+        for (let filter of this._filters) {
             let value = filter.getActualFilterValue();
-            console.log(value)
             if (value !== undefined) filterStyle.push(value)
         }
         filterStyle = filterStyle.join(" ");

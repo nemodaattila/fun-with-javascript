@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Camera</title>
+    <style>
+        video, canvas {
+            border: solid 1px black;
+        }
+    </style>
 </head>
 <body>
-
 <h1>Web Camera stream with filters</h1>
-
 <div>
     <video id="camVideo" height="300px" width="400px" autoplay="">
         Your browser doesn't support video tag
@@ -30,6 +33,4 @@
 <script src="js/VideoFilterModel.js"></script>
 <script src="js/VideoFilterView.js"></script>
 <script src="js/init.js"></script>
-
 </html>
-
