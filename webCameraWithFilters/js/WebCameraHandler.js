@@ -1,9 +1,14 @@
 class WebCameraHandler{
+    _view
+    _model
+    _filters
 
     constructor() {
         if (!WebCameraHandler._instance) {
             WebCameraHandler._instance = this;
-            // this._view = new MineSweeperControlsView()
+            this._view = new WebCameraHandlerView()
+            this._model = new WebCameraHandlerModel()
+            console.log(this)
         }
         return WebCameraHandler._instance;
     }
@@ -19,9 +24,16 @@ class WebCameraHandler{
 
     setCtrlButtons(video,canvas, filterElement, videoStartButton,filterButton, snapshotButton, saveImgButton)
     {
-        this.controllerElements['buttons'] = this.view.setCtrlButtons(video,canvas, filterElement, videoStartButton,filterButton, snapshotButton, saveImgButton)
-        this.controllerElements['filter'] = this.view.createFilterRanges(this.model.getFilterData());
+        this._view.setCtrlButtons(video,canvas, filterElement, videoStartButton,filterButton, snapshotButton, saveImgButton)
+        this.createFilterRanges();
         this.setCtrlActions()
+    }
+
+    createFilterRanges() {
+        for (let key in this._model.filters)
+        {
+
+        }
     }
 
     static setCtrlActions()
@@ -96,5 +108,7 @@ class WebCameraHandler{
             this.view.createSnapshot();
         })
     }
+
+
 }
 

@@ -1,14 +1,24 @@
-class WebCameraHandlerView extends Singleton{
-    videoStartStopButton;
-    filterOnOffButton;
-    snapShotButton;
-    imgSaveButton;
-    video;
-    canvas;
-    context;
-    filterHtmlElem
+class WebCameraHandlerView {
+    _videoStartStopButton;
+    _filterOnOffButton;
+    _snapShotButton;
+    _imgSaveButton;
+    _video;
+    _canvas;
+    _context;
+    _filterHtmlElem
 
-    filterRanges=[];
+    setCtrlButtons(video,canvas,filterElem, vidStart,filterbutton, snapshotbutton, saveimgbutton)
+    {
+        this._video = document.getElementById(video);
+        this._canvas = document.getElementById(canvas);
+        this._context=this._canvas.getContext("2d");
+        this._filterHtmlElem =  document.getElementById(filterElem)
+        this._videoStartStopButton = document.getElementById(vidStart);
+        this._filterOnOffButton = document.getElementById(filterbutton);
+        this._snapShotButton = document.getElementById(snapshotbutton);
+        this._imgSaveButton= document.getElementById(saveimgbutton);
+    }
 
     createFilterRanges(filters)
     {
@@ -37,18 +47,7 @@ class WebCameraHandlerView extends Singleton{
         return this.filterRanges;
     }
 
-    setCtrlButtons(video,canvas,filterElem, vidStart,filterbutton, snapshotbutton, saveimgbutton)
-    {
-        this.video = document.getElementById(video);
-        this.canvas = document.getElementById(canvas);
-        this.context=this.canvas.getContext("2d");
-        this.filterHtmlElem =  document.getElementById(filterElem)
-        this.videoStartStopButton = document.getElementById(vidStart);
-        this.filterOnOffButton = document.getElementById(filterbutton);
-        this.snapShotButton = document.getElementById(snapshotbutton);
-        this.imgSaveButton= document.getElementById(saveimgbutton);
-        return [this.videoStartStopButton, this.filterOnOffButton, this.snapShotButton, this.imgSaveButton]
-    }
+
 
     getVideoState()
     {
