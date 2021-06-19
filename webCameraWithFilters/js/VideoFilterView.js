@@ -10,7 +10,6 @@ class VideoFilterView {
     }
 
     createFilterElement(container, model) {
-        console.log(model)
         let fdiv=document.createElement("div");
         container.appendChild(fdiv);
         let text=document.createTextNode(model.name+": 0" +model.unit);
@@ -26,4 +25,10 @@ class VideoFilterView {
         text=document.createTextNode(" " + model.maxValue+model.unit);
         fdiv.appendChild(text);
     }
+
+    resetFilterValue(value)
+    {
+        this._filter.value = value
+    }
+
 }

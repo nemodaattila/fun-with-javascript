@@ -40,7 +40,7 @@ class WebCameraHandler{
     {
         this.addVideoHandling();
         this.addFilterHandling();
-        // this.addSnapShotHandling();
+        this.addSnapShotHandling();
     }
 
     addVideoHandling()
@@ -74,6 +74,7 @@ class WebCameraHandler{
             {
                 this._view.stopVideo()
                 this.webCamStream.stop();
+                this.resetFilters()
             }
         });
     }
@@ -94,19 +95,38 @@ class WebCameraHandler{
             }
             else if (state === 'on')
             {
-                console.log(this)
-                this._view.hideFilter();
+                this.resetFilters()
             }
         })
     }
 
-    static addSnapShotHandling()
+    resetFilters()
     {
-        this.controllerElements['buttons'][2].addEventListener("click",()=> {
-            this.view.createSnapshot();
+        this._view.hideFilter();
+        for (let filter of this._filters)
+        {
+            filter.reset();
+        }
+        this.filterChanged()
+    }
+
+    addSnapShotHandling()
+    {
+        this._view.snapShotButton.addEventListener("click",()=> {
+            this._view.createSnapshot();
         })
     }
 
-
+    filterChanged() {
+        let filterStyle=[];
+        for (let filter of this._filters)
+        {
+            let value = filter.getActualFilterValue();
+            console.log(value)
+            if (value !== undefined) filterStyle.push(value)
+        }
+        filterStyle = filterStyle.join(" ");
+        this._view.setFilterOnVideo(filterStyle)
+    }
 }
 

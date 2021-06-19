@@ -1,8 +1,18 @@
 class VideoFilterModel {
+
     _name
     _maxValue;
     _defaultValue;
     _unit;
+    _actualValue;
+
+    get actualValue() {
+        return this._actualValue;
+    }
+
+    set actualValue(value) {
+        this._actualValue = value;
+    }
 
     get name() {
         return this._name;
@@ -25,5 +35,11 @@ class VideoFilterModel {
         this._defaultValue = defaultValue
         this._unit = unit
         this._maxValue = maxValue
+        this._actualValue=this._defaultValue
+    }
+
+    resetActualValue()
+    {
+        this._actualValue = this._defaultValue
     }
 }

@@ -20,6 +20,10 @@ class WebCameraHandlerView {
         return this._filterOnOffButton;
     }
 
+    get snapShotButton() {
+        return this._snapShotButton;
+    }
+
     setCtrlButtons(video,canvas,filterElem, vidStart,filterbutton, snapshotbutton, saveimgbutton)
     {
         this._video = document.getElementById(video);
@@ -32,10 +36,7 @@ class WebCameraHandlerView {
         this._imgSaveButton= document.getElementById(saveimgbutton);
     }
 
-    getFilterState()
-    {
-        return this.filterOnOffButton.value;
-    }
+
 
     startVideo(stream)
     {
@@ -50,7 +51,6 @@ class WebCameraHandlerView {
     {
         this._snapShotButton.disabled=true;
         this._filterHtmlElement.hidden=true;
-        this._filterHtmlElement.innerHTML="";
         this._filterOnOffButton.disabled=true;
         this._filterOnOffButton.value="off";
         this._filterOnOffButton.innerText="Enable filter";
@@ -78,31 +78,23 @@ class WebCameraHandlerView {
         this._canvas.style = "";
         this._filterHtmlElement.hidden=true;
         this._filterOnOffButton.value="off";
-        this._filterOnOffButton.innerText="Szúrő bekapcsol";
+        this._filterOnOffButton.innerText="Enable filter";
     }
 
     setFilterOnVideo(filterData)
     {
-
-        this.video.style.filter="";
-        let tempFilter=[];
-
-        for (let i=0;i< this.filterRanges.length;i++)
-        {
-            if (this.filterRanges[i].value!=filterData[1][i][2])
-                tempFilter.push(filterData[0][i] + "("+this.filterRanges[i].value+filterData[1][i][3]+")");
-        }
-        tempFilter=tempFilter.join(" ");
-        if (tempFilter.length==0) tempFilter="";
-        this.video.style.filter=tempFilter;
-        this.context.filter=tempFilter
+        this._video.style.filter='';
+        console.log(filterData)
+        console.log(this._video)
+        this._video.style.filter=filterData;
+        this._context.filter=filterData
     }
 
     createSnapshot()
     {
-        this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
-        this.context.drawImage(this.video,0,0,this.canvas.width,this.canvas.height);
-        this.imgSaveButton.disabled=false;
-        this.imgSaveButton.firstChild.href=this.canvas.toDataURL('image/png');
-        }
+        this._context.clearRect(0,0,this._canvas.width,this._canvas.height);
+        this._context.drawImage(this._video,0,0,this._canvas.width,this._canvas.height);
+        this._imgSaveButton.disabled=false;
+        this._imgSaveButton.firstChild.href=this._canvas.toDataURL('image/png');
+    }
 }
