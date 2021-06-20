@@ -1,17 +1,41 @@
+/**
+ * view for CanvasClock
+ */
 class CanvasClockView{
-    get summary() {
-        return this._summary;
-    }
 
+    /**
+     * DOM Object | html element for canvas
+     * @private
+     */
     _canvas;
+
+    /**
+     * DOM Object | 2d context for _canvas
+     * @private
+     */
     _context;
-    _summary;
+
+    /**
+     * colors of the hands of the clock (hour, minute, second)
+     * @type {string[]}
+     * @private
+     */
     _handColor = ["green","red","black"];
+
+    /**
+     * line width of the hands of the clock (hour, minute, second)
+     * @type {string[]}
+     * @private
+     */
     _handWidth = [3,2,1]
 
-    setCanvas(elem)
+    /**
+     *
+     * @param htmlID
+     */
+    setCanvas(htmlID)
     {
-        this._canvas=document.getElementById(elem)
+        this._canvas=document.getElementById(htmlID)
         this._context= this._canvas.getContext("2d")
         console.dir(this._canvas)
         this._summary = this._canvas.previousElementSibling;
