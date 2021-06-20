@@ -50,7 +50,7 @@ class CanvasClockModel {
     }
 
     /**
-     * calculates data for the minute markers at the perimeter of the clock | format: {[coordinateX, coordinateY], marker length}[]
+     * calculates data for the minute markers at the perimeter of the clock (60 - one for every minute) | format: {[coordinateX, coordinateY], marker length}[]
      */
     calculateClockMarkerData() {
         for (let beta = 0; beta < 360; beta += 6) {
@@ -77,5 +77,4 @@ class CanvasClockModel {
             return MathHelper.countHypotenuseCoordsInTriangle(value, this.clockHandLength)
         })
     }
-
 }
